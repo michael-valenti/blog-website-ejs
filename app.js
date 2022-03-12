@@ -41,6 +41,13 @@ res.render("contact", {contactContent});
 
 });
 
+app.get("/compose", function(req, res){
+
+//render the contact page and pass contactContent to it
+res.render("compose");
+
+});
+
 
 
 
