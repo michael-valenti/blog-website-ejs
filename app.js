@@ -27,6 +27,19 @@ res.render("home", {homeStartingContent});
 
 });
 
+app.get("/about", function(req, res){
+
+//render the about page and pass aboutContent to it
+res.render("about", {aboutContent});
+
+});
+
+app.get("/contact", function(req, res){
+
+//render the contact page and pass contactContent to it
+res.render("contact", {contactContent});
+
+});
 
 
 
