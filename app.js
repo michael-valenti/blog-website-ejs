@@ -48,6 +48,12 @@ res.render("compose");
 
 });
 
+app.post("/", function(req, res){
+console.log(req.body.postTitle);
+console.log(req.body.postBody);
+
+});
+
 
 
 
