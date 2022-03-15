@@ -3,6 +3,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
+const _ = require('lodash');
 
 const port = 3000;
 
@@ -55,13 +56,13 @@ app.get("/posts/:postname", function(req, res){
 //check if there is a matching post title for the requested URL
 posts.forEach(function(post){
   const storedTitle = post.title;
-  if(storedTitle === requestedTitle){
+  if(_.lowerCase(storedTitle) === _.lowerCase(requestedTitle)){
     console.log("Match found!");
   }else {
     console.log("Not a match!");
   }
 
-})
+});
 
 
 
