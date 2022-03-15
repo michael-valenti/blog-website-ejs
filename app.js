@@ -53,11 +53,12 @@ res.render("compose");
 app.get("/posts/:postname", function(req, res){
   const requestedTitle = req.params.postname;
 
-//check if there is a matching post title for the requested URL
+//check if there is a matching post title for the requested URL. If there is, render the post on the Post page.
 posts.forEach(function(post){
   const storedTitle = post.title;
+  const storedBody = post.post;
   if(_.lowerCase(storedTitle) === _.lowerCase(requestedTitle)){
-    console.log("Match found!");
+    res.render("post", {post});
   }else {
     console.log("Not a match!");
   }
