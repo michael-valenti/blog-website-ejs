@@ -44,8 +44,26 @@ res.render("contact", {contactContent});
 
 app.get("/compose", function(req, res){
 
-//render the contact page and pass contactContent to it
+//render the compose page
 res.render("compose");
+
+});
+
+app.get("/posts/:postname", function(req, res){
+  const requestedTitle = req.params.postname;
+
+//check if there is a matching post title for the requested URL
+posts.forEach(function(post){
+  const storedTitle = post.title;
+  if(storedTitle === requestedTitle){
+    console.log("Match found!");
+  }else {
+    console.log("Not a match!");
+  }
+
+})
+
+
 
 });
 
