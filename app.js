@@ -24,6 +24,15 @@ app.use(express.static("public"));
 
 mongoose.connect("mongodb://localhost:27017/blogWebsiteDB");
 
+//create posts Schema
+const postsSchema = new mongoose.Schema({
+  title: String,
+  body: String
+});
+
+//create Post model
+const Post = mongoose.model('Post', postsSchema);
+
 app.get("/", function(req, res){
 
 //render the home page and pass homeStartingContent and posts array to it
