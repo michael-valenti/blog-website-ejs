@@ -4,7 +4,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const _ = require('lodash');
-
+const mongoose = require('mongoose');
 const port = 3000;
 
 let posts =[];
@@ -21,6 +21,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 //use static files in the folder named public
 app.use(express.static("public"));
 
+
+mongoose.connect("mongodb://localhost:27017/blogWebsiteDB");
 
 app.get("/", function(req, res){
 
