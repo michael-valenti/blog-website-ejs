@@ -12,7 +12,9 @@ const app = express();
 
 app.set('view engine', 'ejs');
 
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 //use static files in the folder named public
 app.use(express.static("public"));
 
@@ -56,49 +58,55 @@ const contactContent = {
 const defaultPosts = [welcomePost];
 
 
-app.get("/", (req, res)=>{
-//Query the database for foundPosts
-Post.find({}, (err, foundPosts) => {
-  //If no posts are found
-  if(foundPosts.length === 0) {
-    //Insert the default posts
-    Post.insertMany(defaultPosts, (err) => {
-      if (err){
-        console.log(err);
-      } else {
-        console.log("Successfully inserted default posts!");
-      }
-    });
-    res.redirect("/");
-  }
-  else {
-    //If default items are already present, render them to the home screen
-    //along with the home starting content
-      res.render("home", {posts: foundPosts, homeStartingContent});
+app.get("/", (req, res) => {
+  //Query the database for foundPosts
+  Post.find({}, (err, foundPosts) => {
+    //If no posts are found
+    if (foundPosts.length === 0) {
+      //Insert the default posts
+      Post.insertMany(defaultPosts, (err) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log("Successfully inserted default posts!");
+        }
+      });
+      res.redirect("/");
+    } else {
+      //If default items are already present, render them to the home screen
+      //along with the home starting content
+      res.render("home", {
+        posts: foundPosts,
+        homeStartingContent
+      });
 
-  }
-});
-
-});
-
-app.get("/about", (req, res)=>{
-
-//render the about page and pass aboutContent to it
-res.render("about", {aboutContent});
+    }
+  });
 
 });
 
-app.get("/contact", (req, res)=>{
+app.get("/about", (req, res) => {
 
-//render the contact page and pass contactContent to it
-res.render("contact", {contactContent});
+  //render the about page and pass aboutContent to it
+  res.render("about", {
+    aboutContent
+  });
+
+});
+
+app.get("/contact", (req, res) => {
+
+  //render the contact page and pass contactContent to it
+  res.render("contact", {
+    contactContent
+  });
 
 });
 
 app.get("/compose", (req, res) => {
 
-//render the compose page
-res.render("compose");
+  //render the compose page
+  res.render("compose");
 
 });
 
@@ -106,9 +114,14 @@ app.get("/posts/:postid", (req, res) => {
   //store the post id that gets clicked on
   const requestedPostId = req.params.postid;
   //find the post in the collection using the post ID
-  Post.findOne({_id: requestedPostId}, (err, foundPost) =>{
-    if (!err){
-      res.render("post", {postTitle: foundPost.title, postBody: foundPost.body});
+  Post.findOne({
+    _id: requestedPostId
+  }, (err, foundPost) => {
+    if (!err) {
+      res.render("post", {
+        postTitle: foundPost.title,
+        postBody: foundPost.body
+      });
     } else {
       console.log(err);
     }
@@ -122,9 +135,9 @@ app.post("/", (req, res) => {
     title: req.body.postTitle,
     body: req.body.postBody
   });
-//insert newPost into collection
+  //insert newPost into collection
   Post.create(newPost, (err) => {
-    if (err){
+    if (err) {
       console.log(err);
     } else {
       console.log("Successfully inserted new post!");
@@ -135,15 +148,6 @@ app.post("/", (req, res) => {
   res.redirect("/");
 
 });
-
-
-
-
-
-
-
-
-
 
 app.listen(port, function() {
   console.log("Server started on port 3000");
