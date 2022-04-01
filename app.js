@@ -103,23 +103,17 @@ res.render("compose");
 
 });
 
-app.get("/posts/:postname", function(req, res){
-  const requestedTitle = req.params.postname;
-
-//check if there is a matching post title for the requested URL. If there is, render the post on the Post page.
-posts.forEach(function(post){
-  const storedTitle = post.title;
-  const storedBody = post.post;
-  if(_.lowerCase(storedTitle) === _.lowerCase(requestedTitle)){
-    res.render("post", {post});
-  }else {
-    console.log("Not a match!");
-  }
-
-});
-
-
-
+app.get("/posts/:postid", function(req, res){
+  //store the post id that gets clicked on
+  const requestedPostId = req.params.postid;
+  //find the post in the collection using the post ID
+  Post.findOne({_id: requestedPostId}, (err, foundPost) =>{
+    if (!err){
+      res.render("post", {postTitle: foundPost.title, postBody: foundPost.body});
+    } else {
+      console.log(err);
+    }
+  });
 });
 
 //When a new post is composed and published
