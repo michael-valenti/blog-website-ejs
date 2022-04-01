@@ -30,30 +30,55 @@ const postsSchema = new mongoose.Schema({
 const Post = mongoose.model('Post', postsSchema);
 
 //create default starting content
-const homeStartingContent = new Post({
+
+const welcomePost = new Post({
+  title: "Welcome!",
+  body: "Welcome to your new Blog Website! This website was developed by Michael Valenti using JavaScript, EJS, HTML, CSS, and MongoDB."
+});
+
+
+const homeStartingContent = {
   title: "Home",
   body: "Lacus vel facilisis volutpat est velit egestas dui id ornare. Semper auctor neque vitae tempus quam. Sit amet cursus sit amet dictum sit amet justo. Viverra tellus in hac habitasse. Imperdiet proin fermentum leo vel orci porta. Donec ultrices tincidunt arcu non sodales neque sodales ut. Mattis molestie a iaculis at erat pellentesque adipiscing. Magnis dis parturient montes nascetur ridiculus mus mauris vitae ultricies. Adipiscing elit ut aliquam purus sit amet luctus venenatis lectus. Ultrices vitae auctor eu augue ut lectus arcu bibendum at. Odio euismod lacinia at quis risus sed vulputate odio ut. Cursus mattis molestie a iaculis at erat pellentesque adipiscing."
-});
+};
 
-const aboutContent = new Post ({
+const aboutContent = {
   title: "About",
   body: "My name is Michael Valenti and I am a Web Developer!"
-});
+};
 
-const contactContent = new Post ({
+const contactContent = {
   title: "Contact",
-  body: ""
-});
+  body: "For business inquiries, please contact me by email! mvalenti14@live.com"
+};
 
 
-
-const defaultPosts = [homeStartingContent, aboutContent, contact];
+//store default posts in an array
+const defaultPosts = [welcomePost];
 
 
 app.get("/", function(req, res){
+//Query the database for foundPosts
+Post.find({}, (err, foundPosts) => {
+  //If no posts are found
+  if(foundPosts.length === 0) {
+    //Insert the default posts
+    Post.insertMany(defaultPosts, (err) => {
+      if (err){
+        console.log(err);
+      } else {
+        console.log("Successfully inserted default posts!");
+      }
+    });
+    res.redirect("/");
+  }
+  else {
+    //If default items are already present, render them to the home screen
+    //along with the home starting content
+      res.render("home", {posts: foundPosts, homeStartingContent});
 
-//render the home page and pass homeStartingContent and posts array to it
-res.render("home", {homeStartingContent, posts});
+  }
+});
 
 });
 
