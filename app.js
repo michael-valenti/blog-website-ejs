@@ -7,7 +7,6 @@ const _ = require('lodash');
 const mongoose = require('mongoose');
 const port = 3000;
 
-//let posts =[];
 
 const app = express();
 
