@@ -122,14 +122,23 @@ posts.forEach(function(post){
 
 });
 
+//When a new post is composed and published
 app.post("/", function(req, res){
-  //store title and body inside of an object
-  const post = {
+  //store title and body inside of newPost
+  const newPost = new Post({
     title: req.body.postTitle,
-    post: req.body.postBody
-  };
-  //push the object to an array named "posts and then redirect to the homepage"
-  posts.push(post);
+    body: req.body.postBody
+  });
+//insert newPost into collection
+  Post.create(newPost, (err) => {
+    if (err){
+      console.log(err);
+    } else {
+      console.log("Successfully inserted new post!");
+    }
+  });
+
+  //redirect to the home page once complete
   res.redirect("/");
 
 });
