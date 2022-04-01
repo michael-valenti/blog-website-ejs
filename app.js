@@ -57,7 +57,7 @@ const contactContent = {
 const defaultPosts = [welcomePost];
 
 
-app.get("/", function(req, res){
+app.get("/", (req, res)=>{
 //Query the database for foundPosts
 Post.find({}, (err, foundPosts) => {
   //If no posts are found
@@ -82,28 +82,28 @@ Post.find({}, (err, foundPosts) => {
 
 });
 
-app.get("/about", function(req, res){
+app.get("/about", (req, res)=>{
 
 //render the about page and pass aboutContent to it
 res.render("about", {aboutContent});
 
 });
 
-app.get("/contact", function(req, res){
+app.get("/contact", (req, res)=>{
 
 //render the contact page and pass contactContent to it
 res.render("contact", {contactContent});
 
 });
 
-app.get("/compose", function(req, res){
+app.get("/compose", (req, res) => {
 
 //render the compose page
 res.render("compose");
 
 });
 
-app.get("/posts/:postid", function(req, res){
+app.get("/posts/:postid", (req, res) => {
   //store the post id that gets clicked on
   const requestedPostId = req.params.postid;
   //find the post in the collection using the post ID
@@ -117,7 +117,7 @@ app.get("/posts/:postid", function(req, res){
 });
 
 //When a new post is composed and published
-app.post("/", function(req, res){
+app.post("/", (req, res) => {
   //store title and body inside of newPost
   const newPost = new Post({
     title: req.body.postTitle,
